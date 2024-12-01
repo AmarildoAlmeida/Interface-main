@@ -1,7 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useContext, createContext, useEffect, useState } from 'react';
 
 const CartContext = createContext({});
 
+// eslint-disable-next-line react/prop-types
 export const CartProvider = ({ children }) => {
   const [cartProducts, setCartProducts] = useState([]);
 
