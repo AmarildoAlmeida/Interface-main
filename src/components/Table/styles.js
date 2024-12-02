@@ -12,6 +12,7 @@ export const Header = styled.thead``;
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
+  height: 20%;
   padding: 16px;
   text-align: left;
   color: #fff;
