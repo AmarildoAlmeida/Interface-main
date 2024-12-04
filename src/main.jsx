@@ -8,15 +8,19 @@ import GlobalStyles from './styles/globalStyles';
 import { Elements } from '@stripe/react-stripe-js';
 import AppProvider from './hooks'; // alteração
 import stripePromise from './config/stripeConfig';
+import { ThemeProvider } from 'styled-components';
+import { standardTheme } from './styles/themes/standard';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AppProvider>
-      <Elements stripe={stripePromise}>
-        <RouterProvider router={router} />
-      </Elements>
-      <GlobalStyles />
-      <ToastContainer autoClose={2000} theme="colored" />
-    </AppProvider>
+    <ThemeProvider theme={standardTheme}>
+      <AppProvider>
+        <Elements stripe={stripePromise}>
+          <RouterProvider router={router} />
+        </Elements>
+        <GlobalStyles />
+        <ToastContainer autoClose={2000} theme="colored" />
+      </AppProvider>
+    </ThemeProvider>
   </StrictMode>,
 );
