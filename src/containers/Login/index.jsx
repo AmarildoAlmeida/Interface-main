@@ -13,27 +13,27 @@ import {
   InputContainer,
   LeftContainer,
   RightContainer,
-  Title,Link
+  Title,
+  Link,
 } from './styles';
 
-
-
-export function Login(){
+export function Login() {
   const navigate = useNavigate();
-  const {putUserData} = useUser();
+  const { putUserData } = useUser();
 
   const schema = yup
     .object({
-      email: yup.string()
-      .email('Digite um E-mail válido')
-      .required('O E-mail é obrigatório'),
-      password:yup
-      .string()
-      .min(6, 'A senha deve ter 6 caracteres')
-      .required('Digite uma senha'),
+      email: yup
+        .string()
+        .email('Digite um E-mail válido')
+        .required('O E-mail é obrigatório'),
+      password: yup
+        .string()
+        .min(6, 'A senha deve ter 6 caracteres')
+        .required('Digite uma senha'),
     })
     .required();
-  
+
   const {
     register,
     handleSubmit,
@@ -44,27 +44,29 @@ export function Login(){
   console.log(errors);
 
   const onSubmit = async (data) => {
-   const {data:userData} = await toast.promise( 
-    api.post('/session', {
-      email:data.email,
-      password:data.password,
-    }), 
-    {
-      pending:'Verificando seus dados',
-      success:{
-        render(){
-          setTimeout(() =>{
-            navigate('/');
-             },2000);
-             return 'Seja Bem -Vindo (a)💕';
+    const { data: userData } = await toast.promise(
+      api.post('/session', {
+        email: data.email,
+        password: data.password,
+      }),
+      {
+        pending: 'Verificando seus dados',
+        success: {
+          render() {
+            setTimeout(() => {
+              if (userData?.admin) {
+                navigate('/admin/home');
+              } else {
+                navigate('/');
+              }
+            }, 2000);
+            return 'Seja Bem -Vindo (a)💕';
+          },
         },
+        error: 'Email ou senha Incorretos',
       },
-      error: 'Email ou senha Incorretos',
-    },
-   );
-   putUserData(userData);
-
-    
+    );
+    putUserData(userData);
   };
 
   return (
@@ -82,7 +84,7 @@ export function Login(){
           <InputContainer>
             <label> Email </label>
             <input type="email" {...register('email')} />
-          <p>{errors?.email?.message}</p>
+            <p>{errors?.email?.message}</p>
           </InputContainer>
 
           <InputContainer>
